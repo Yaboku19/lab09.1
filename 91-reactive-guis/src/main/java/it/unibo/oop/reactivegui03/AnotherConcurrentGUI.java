@@ -64,9 +64,13 @@ public final class AnotherConcurrentGUI extends JFrame {
                 ex.printStackTrace();   // NOPMD
             }
             agent1.stopCounting();
-            up.setEnabled(false);
-            down.setEnabled(false);
-            stop.setEnabled(false);
+            try {
+                SwingUtilities.invokeAndWait(() -> up.setEnabled(false));
+                SwingUtilities.invokeAndWait(() -> down.setEnabled(false));
+                SwingUtilities.invokeAndWait(() -> stop.setEnabled(false));
+            } catch (InvocationTargetException | InterruptedException e1) {
+                e1.printStackTrace();   // NOPMD
+            }
         }).start();
     }
 
